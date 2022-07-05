@@ -1,95 +1,44 @@
-javascript:(
-    function(){
-       
-        
-var url = window.location.href;
-if (url.indexOf("boards.4chan.org") < 0 && url.indexOf("/thread/") < 0) {
-    //wildcards
-    alert("You are not in a 4chan thread");
-}
-else {
+javascript: (
+    function () {
+        function ClicarImg(prueba) {
+            for (let i = 0; i < prueba.length; i++) {
+                var ref = prueba[i].children[0].href;
+                var src = prueba[i].children[0].src
+                var x = true;
+                prueba[i].children[0].href = "javascript:void(0);";
+                prueba[i].children[0].src = "javascript:void(0);";
 
-
-    prueba = document.getElementsByClassName("fileThumb");
-    var r = confirm("Are you going to download images in this session?\n OK will remove unnecesary images to improve bulk download");
-    if (r == true) {
-        for (let index = 0; index < prueba.length; index++) {
-        
-            var x=true;
-            for (let vuelta = 0; vuelta<prueba[index].children.length; vuelta++){
-            if(prueba[index].children[vuelta].className=="expanded-thumb"){ x = false}
-            else{}
+                for (let j = 0; j < prueba[i].children.length; j++) {
+                    if (prueba[i].children[j].className == "expanded-thumb") { x = false }
+                    else { }
+                }
+                if (x == true) {
+                    prueba[i].children[0].click();
+                }
+                prueba[i].children[0].href = ref;
+                prueba[i].children[0].src = src;
             }
-            if(x == true){  
-            prueba[index].children[0].href = "javascript:void(0);";
-            prueba[index].children[0].src = "javascript:void(0);";
-            prueba[index].children[0].click();
-            var elem = prueba[index].children[0];
-            prueba[index].removeChild(elem);
         }
-          
-         
+        var url = window.location.href;
+        if (url.indexOf("boards.4chan.org") < 0 && url.indexOf("/thread/") < 0) {
+            alert("You are not in a 4chan thread");
         }
-
-        for (let vuelta = 0; vuelta < 2; vuelta++) {
+        else {
+            prueba = document.getElementsByClassName("fileThumb");
             var imagenes = document.getElementsByTagName("img");
-            for (let index = 0; index < imagenes.length; index++) {
-                console.log(imagenes[index].src)
-                if (imagenes[index].src.indexOf("favicon") > -1 || imagenes[index].src.indexOf("fade.png") > -1 || imagenes[index].src.indexOf("/title/") > -1 || imagenes[index].src.indexOf("/contest_banners/") > -1 || imagenes[index].src.indexOf("/buttons/") > -1) {
-
-                    imagenes[index].remove();
-
-
-
+            for (let p = imagenes.length - 1; p >= 0; p--) {
+                if (imagenes[p].src.indexOf("favicon") > -1 || imagenes[p].src.indexOf("fade.png") > -1 || imagenes[p].src.indexOf("/title/") > -1 || imagenes[p].src.indexOf("/contest_banners/") > -1 || imagenes[p].src.indexOf("/buttons/") > -1) {
+                    imagenes[p].remove();
                 }
-
-
-                if (imagenes[index].parentNode.title != "") {
-                    imagenes[index].remove();
+                if (imagenes[p].parentNode.title != "") {
+                    imagenes[p].remove();
                 }
-
-
-                else { }
             }
-        }
-        var links = document.getElementsByTagName("link");
-        for (let index = 0; index < imagenes.length; index++) {
-            if (links[index].src.indexOf("favicon") > -1 || links[index].src.indexOf("fade.png") > -1 || links[index].src.indexOf("/title/") > -1 || links[index].src.indexOf("/contest_banners/") > -1 || links[index].src.indexOf("/buttons/") > -1) {
-
-                links[index].remove();
-
-
-
+            var links = document.getElementsByTagName("link");
+            for (let q = links.length - 1; q >= 0; q--) {
+                if (links[q].rel != "stylesheet")
+                    links[q].remove();
             }
-
-
-
-
+            ClicarImg(prueba);
         }
-
-
-    } else {
-
-        for (let index = 0; index < prueba.length; index++) {
-
-            var ref = prueba[index].children[0].href;
-            var src = prueba[index].children[0].src
-            prueba[index].children[0].href = "javascript:void(0);";
-            prueba[index].children[0].src = "javascript:void(0);";
-            var x=true;
-            for (let vuelta = 0; vuelta<prueba[index].children.length; vuelta++){
-            if(prueba[index].children[vuelta].className=="expanded-thumb"){ x = false}
-            else{}
-            }
-            if(x == true){  
-            prueba[index].children[0].click();
-             }
-            prueba[index].children[0].href = ref;
-            prueba[index].children[0].src = src;
-        }
-    }
-
-}
-
-            
-            })();
+    })();
